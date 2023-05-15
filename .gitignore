@@ -12,3 +12,7 @@ Tetris/obj/Debug/net6.0/refint/Tetris.dll
 Tetris/obj/Debug/net6.0/Tetris.dll
 
 Tetris/obj/Debug/net6.0/Tetris.pdb
+
+.vs/Tetris/xs/project-cache/
+
+*.cache
