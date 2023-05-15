@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{48B0FD00-63DA-4AF7-B49C-82D941D713EC}|Default">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Tetris PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Tetris/Board.cs">
+    <Files>
+      <File FileName="Tetris/Game1.cs" Line="79" Column="1" />
+      <File FileName="Tetris/Board.cs" Line="37" Column="29" />
+      <File FileName="Tetris/piece_0.cs" Line="43" Column="39" />
+      <File FileName="Tetris/Program.cs" Line="3" Column="1" />
+      <File FileName="Tetris/graph.cs" Line="20" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Tetris" expanded="True">
+            <Node name="Tetris" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

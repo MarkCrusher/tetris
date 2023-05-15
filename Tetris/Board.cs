@@ -53,23 +53,23 @@ namespace Tetris
 
         public void MoveRight()
         {
-            x_piece = Piece_0.GetNextX(piece_state, x_piece, 1);
+            x_piece = Piece_T.GetNextX(piece_state, x_piece, 1);
         }
 
         public void MoveLeft()
         {
-            x_piece = Piece_0.GetNextX(piece_state, x_piece, -1);
+            x_piece = Piece_T.GetNextX(piece_state, x_piece, -1);
         }
 
         public void Rotate()
         {
             piece_state = (piece_state + 1) % 4;
-            x_piece = Piece_0.GetNextX(piece_state, x_piece, 0);
+            x_piece = Piece_T.GetNextX(piece_state, x_piece, 0);
         }
 
         public bool CheckBottom()
         {
-            return Piece_0.CheckBottom(piece_state, x_piece, y_piece, this);
+            return Piece_T.CheckBottom(piece_state, x_piece, y_piece, this);
         }
 
 

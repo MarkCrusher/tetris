@@ -5,9 +5,9 @@ using Tetris;
 
 namespace Tetris
 {
-	public class Piece_0
+	public class Piece_T
 	{
-		public Piece_0()
+		public Piece_T()
 		{
 		}
 
@@ -44,7 +44,7 @@ namespace Tetris
         {
             if (state == 3)
             {
-                if (Piece_0.hasBottomed(state, x, y, board))
+                if (Piece_T.hasBottomed(state, x, y, board))
                 {
 
                     //  X
