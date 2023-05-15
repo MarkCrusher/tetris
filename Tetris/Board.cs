@@ -31,12 +31,19 @@ namespace Tetris
         public bool DropOneDown()
         {
             y_piece++;
-            if (y_piece > Game1.BOARD_SIZE_HEIGHT-1)
+        
+            if (CheckBottom())
+            {
+                y_piece = 0;
+                return true;
+            }
+
+            if (y_piece > Game1.BOARD_SIZE_HEIGHT - 1)
             {
                 y_piece = 0;
             }
 
-            return CheckBottom();
+            return false;
         }
 
         public void DropAllTheWay()

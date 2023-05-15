@@ -44,13 +44,16 @@ namespace Tetris
         {
             if (state == 3)
             {
-                if (y > Game1.BOARD_SIZE_HEIGHT-2)
+                if (Piece_0.hasBottomed(state, x, y, board))
                 {
-          
+
+                    //  X
+                    // X0X
                     board.squares[x,y] = 1;
                     board.squares[x-1, y] = 1;
                     board.squares[x + 1, y] = 1;
                     board.squares[x, y - 1] = 1;
+
                     return true;
 
                 }
@@ -59,7 +62,40 @@ namespace Tetris
       
         }
 
-            public static void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, int state, int x, int y)
+
+        public static bool hasBottomed(int state, int x, int y, Board board)
+        {
+            if (state == 3)
+            {
+                if (y > Game1.BOARD_SIZE_HEIGHT - 2)
+                {
+                    return true;
+                }
+
+                //  X
+                // X0X
+                //  C
+                if (board.squares[x, y + 1] > 0)
+                    return true;
+
+                //  X
+                // X0X
+                // C
+                if (board.squares[x-1, y + 1] > 0)
+                    return true;
+
+
+                //  X
+                // X0X
+                //   C
+                if (board.squares[x + 1, y + 1] > 0)
+                    return true;
+            }
+            return false;
+
+        }
+
+        public static void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, int state, int x, int y)
         {
             if (state == 0)
             {
