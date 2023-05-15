@@ -124,14 +124,7 @@ public class Game1 : Game
         {
             for (int y = 0; y < BOARD_SIZE_HEIGHT; y++)
             {
-                if (board.squares[x, y] == 0)
-                {
-                    graph.DrawRect(GraphicsDevice, _spriteBatch, x, y, BOARD_COLOR);
-                }
-                else
-                {
-                    graph.DrawRect(GraphicsDevice, _spriteBatch, x, y, Color.BlueViolet);
-                }
+                graph.DrawRect(GraphicsDevice, _spriteBatch, x, y, PieceColor.GetPieceColor(board.squares[x, y]));
             }
         }
 

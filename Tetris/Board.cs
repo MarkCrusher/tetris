@@ -9,8 +9,8 @@ namespace Tetris
 	{
         public int x_piece = Game1.BOARD_SIZE_WIDTH / 2;
         public int y_piece = 0;
-        public int piece_state = 0;
-        public int[,] squares = new int[Game1.BOARD_SIZE_WIDTH, Game1.BOARD_SIZE_HEIGHT];
+        public PieceState piece_state = PieceState.Up;
+        public PieceType[,] squares = new PieceType[Game1.BOARD_SIZE_WIDTH, Game1.BOARD_SIZE_HEIGHT];
 
         public Board()
 		{
@@ -63,7 +63,7 @@ namespace Tetris
 
         public void Rotate()
         {
-            piece_state = (piece_state + 1) % 4;
+            piece_state = (PieceState)(((int)piece_state + 1) % 4);
             x_piece = Piece_T.GetNextX(piece_state, x_piece, 0);
         }
 
