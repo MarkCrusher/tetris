@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "V/Tr/GPH4z8OodqxnAMvkuOMyWQV7BO2jWoAK5HUXihAbpr1EM1gkbTX2Cq78lFIDhWcq8noovbP7MElHqlyKA==",
+  "success": true,
+  "projectFilePath": "/Users/danieleskenazi/Projects/tetris/Tetris/Tetris.csproj",
+  "expectedPackageFiles": [
+    "/Users/danieleskenazi/.nuget/packages/monogame.content.builder.task/3.8.1.303/monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "/Users/danieleskenazi/.nuget/packages/monogame.framework.desktopgl/3.8.1.303/monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+  ],
+  "logs": []
+}
