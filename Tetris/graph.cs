@@ -12,15 +12,15 @@ namespace Tetris
         }
 
 
-        static public void DrawRect(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, int x, int y, Color color)
+        static public void DrawSquare(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, int x, int y, Color color)
         {
             Texture2D _texture;
-            Rectangle Rect = new Rectangle(Game1.SQUARE_SIDE * x, Game1.SQUARE_SIDE * y, Game1.SQUARE_SIDE - Game1.SQUARE_BOARDER, Game1.SQUARE_SIDE - Game1.SQUARE_BOARDER);
+            Rectangle rect = new Rectangle(TetrisGame.SQUARE_SIDE * x, TetrisGame.SQUARE_SIDE * y, TetrisGame.SQUARE_SIDE - TetrisGame.SQUARE_BOARDER, TetrisGame.SQUARE_SIDE - TetrisGame.SQUARE_BOARDER);
 
             _texture = new Texture2D(graphicsDevice, 1, 1);
             _texture.SetData(new Color[] { color });
 
-            spriteBatch.Draw(_texture, Rect, color);
+            spriteBatch.Draw(_texture, rect, color);
         }
     }
 

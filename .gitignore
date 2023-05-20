@@ -16,3 +16,5 @@ Tetris/obj/Debug/net6.0/Tetris.pdb
 .vs/Tetris/xs/project-cache/
 
 *.cache
+
+.vs/Tetris/xs/

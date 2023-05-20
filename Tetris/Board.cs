@@ -5,74 +5,92 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
-	public class Board
-	{
-        public int x_piece = Game1.BOARD_SIZE_WIDTH / 2;
-        public int y_piece = 0;
+    public class Board
+    {
+        public int x_piece;
+        public int y_piece;
         public PieceState piece_state = PieceState.Up;
-        public PieceType[,] squares = new PieceType[Game1.BOARD_SIZE_WIDTH, Game1.BOARD_SIZE_HEIGHT];
+        public PieceType[,] squares = new PieceType[TetrisGame.BOARD_SIZE_WIDTH, TetrisGame.BOARD_SIZE_HEIGHT];
 
         public Board()
-		{
+        {
             InitBoard();
-		}
+            ResetPiecePosition();
+        }
 
-		private void InitBoard()
-		{
-            for (int x = 0; x < Game1.BOARD_SIZE_WIDTH; x++)
+        private void InitBoard()
+        {
+            for (int x = 0; x < TetrisGame.BOARD_SIZE_WIDTH; x++)
             {
-                for (int y = 0; y < Game1.BOARD_SIZE_HEIGHT; y++)
+                for (int y = 0; y < TetrisGame.BOARD_SIZE_HEIGHT; y++)
                 {
-                    squares[x,y] = 0;
+                    squares[x, y] = 0;
                 }
             }
         }
 
-        public bool DropOneDown()
+        public bool DropOneDown(Piece piece)
         {
             y_piece++;
-        
-            if (CheckBottom())
+
+            if (piece.CheckBottom(piece_state, x_piece, y_piece, this))
             {
-                y_piece = 0;
+                ResetPiecePosition();
                 return true;
             }
 
-            if (y_piece > Game1.BOARD_SIZE_HEIGHT - 1)
+            if (y_piece > TetrisGame.BOARD_SIZE_HEIGHT - 1)
             {
-                y_piece = 0;
+                ResetPiecePosition();
+                return true;
             }
 
             return false;
         }
 
-        public void DropAllTheWay()
+        public void DropAllTheWay(Piece piece)
         {
-            while (!DropOneDown());
+            while (!DropOneDown(piece)) ;
         }
 
-        public void MoveRight()
+        public void MoveRight(Piece piece)
         {
-            x_piece = Piece_T.GetNextX(piece_state, x_piece, 1);
+            x_piece = piece.GetNextX(piece_state, x_piece, 1);
         }
 
-        public void MoveLeft()
+        public void MoveLeft(Piece piece)
         {
-            x_piece = Piece_T.GetNextX(piece_state, x_piece, -1);
+            x_piece = piece.GetNextX(piece_state, x_piece, -1);
         }
 
-        public void Rotate()
+        public void Rotate(Piece piece)
         {
             piece_state = (PieceState)(((int)piece_state + 1) % 4);
-            x_piece = Piece_T.GetNextX(piece_state, x_piece, 0);
+            x_piece = piece.GetNextX(piece_state, x_piece, 0);
         }
 
-        public bool CheckBottom()
+        public bool CheckBottom(Piece piece)
         {
-            return Piece_T.CheckBottom(piece_state, x_piece, y_piece, this);
+            return piece.CheckBottom(piece_state, x_piece, y_piece, this);
         }
 
+        public void ResetPiecePosition()
+        {
+            x_piece = TetrisGame.BOARD_SIZE_WIDTH / 2;
+            y_piece = 0;
+        }
 
+        public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            for (int x = 0; x < TetrisGame.BOARD_SIZE_WIDTH; x++)
+            {
+                for (int y = 0; y < TetrisGame.BOARD_SIZE_HEIGHT; y++)
+                {
+                    graph.DrawSquare(graphicsDevice, spriteBatch, x, y, PieceColor.GetPieceColor(squares[x, y]));
+                }
+            }
+
+        }
 
 
     }

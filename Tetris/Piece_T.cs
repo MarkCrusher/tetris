@@ -5,7 +5,7 @@ using Tetris;
 
 namespace Tetris
 {
-	public class Piece_T
+	public class Piece_T : Piece
 	{
         public static PieceType pieceType = PieceType.T;
         public Piece_T()
@@ -13,10 +13,10 @@ namespace Tetris
 		}
 
 
-        public static int GetNextX(PieceState state, int x, int delta)
+        public int GetNextX(PieceState state, int x, int delta)
         {
             int x_min = 0, x_max =0;
-            int right_border = Game1.BOARD_SIZE_WIDTH - 1;
+            int right_border = TetrisGame.BOARD_SIZE_WIDTH - 1;
 
             x = x + delta;
 
@@ -59,55 +59,13 @@ namespace Tetris
         }
 
 
-        public static bool CheckBottom(PieceState state, int x, int y, Board board)
+        public bool CheckBottom(PieceState state, int x, int y, Board board)
         {
-            if (Piece_T.hasBottomed(state, x, y, board))
+            if (hasBottomed(state, x, y, board))
             {
-
-                if (state == PieceState.Up)
-                {
-                    //  X
-                    // X0X
-                    board.squares[x, y] = PieceType.T;
-                    board.squares[x - 1, y] = PieceType.T;
-                    board.squares[x + 1, y] = PieceType.T;
-                    board.squares[x, y - 1] = PieceType.T;
-                }
-
-                if (state == PieceState.Right)
-                {
-                    //  X
-                    //  OX
-                    //  X
-                    board.squares[x, y] = PieceType.T;
-                    board.squares[x, y - 1] = PieceType.T;
-                    board.squares[x + 1, y] = PieceType.T;
-                    board.squares[x, y + 1] = PieceType.T;
-                }
-
-                if(state == PieceState.Down)
-                {
-                    // X0X
-                    //  X
-                    board.squares[x, y] = PieceType.T;
-                    board.squares[x - 1, y] = PieceType.T;
-                    board.squares[x + 1, y] = PieceType.T;
-                    board.squares[x, y + 1] = PieceType.T;
-                }
-
-                if (state == PieceState.Left)
-                {
-                    //  X
-                    // XO
-                    //  X
-                    board.squares[x, y] = PieceType.T;
-                    board.squares[x, y - 1] = PieceType.T;
-                    board.squares[x - 1, y] = PieceType.T;
-                    board.squares[x, y + 1] = PieceType.T;
-                }
-
+                SetPieceOnBottom(state, x, y, board);
+                
                 return true;
-
 
             }
 
@@ -116,11 +74,11 @@ namespace Tetris
         }
 
 
-        public static bool hasBottomed(PieceState state, int x, int y, Board board)
+        public bool hasBottomed(PieceState state, int x, int y, Board board)
         {
             if (state == PieceState.Up)
             {
-                if (y > Game1.BOARD_SIZE_HEIGHT - 2)
+                if (y > TetrisGame.BOARD_SIZE_HEIGHT - 2)
                 {
                     return true;
                 }
@@ -147,7 +105,7 @@ namespace Tetris
 
             if (state == PieceState.Right)
             {
-                if (y > Game1.BOARD_SIZE_HEIGHT - 3)
+                if (y > TetrisGame.BOARD_SIZE_HEIGHT - 3)
                 {
                     return true;
                 }
@@ -169,7 +127,7 @@ namespace Tetris
 
             if (state == PieceState.Down)
             {
-                if (y > Game1.BOARD_SIZE_HEIGHT - 3)
+                if (y > TetrisGame.BOARD_SIZE_HEIGHT - 3)
                 {
                     return true;
                 }
@@ -197,7 +155,7 @@ namespace Tetris
 
             if (state == PieceState.Left)
             {
-                if (y > Game1.BOARD_SIZE_HEIGHT - 3)
+                if (y > TetrisGame.BOARD_SIZE_HEIGHT - 3)
                 {
                     return true;
                 }
@@ -220,17 +178,68 @@ namespace Tetris
 
         }
 
-        public static void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, PieceState state, int x, int y)
+        public void SetPieceOnBottom(PieceState state, int x, int y, Board board)
         {
-            Color color = PieceColor.GetPieceColor(Piece_T.pieceType);
             if (state == PieceState.Up)
             {
                 //  X
                 // X0X
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y - 1, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x + 1, y, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x - 1, y, color);
+                board.squares[x, y] = PieceType.T;
+                board.squares[x - 1, y] = PieceType.T;
+                board.squares[x + 1, y] = PieceType.T;
+                board.squares[x, y - 1] = PieceType.T;
+            }
+
+            if (state == PieceState.Right)
+            {
+                //  X
+                //  OX
+                //  X
+                board.squares[x, y] = PieceType.T;
+                board.squares[x, y - 1] = PieceType.T;
+                board.squares[x + 1, y] = PieceType.T;
+                board.squares[x, y + 1] = PieceType.T;
+            }
+
+            if (state == PieceState.Down)
+            {
+                // X0X
+                //  X
+                board.squares[x, y] = PieceType.T;
+                board.squares[x - 1, y] = PieceType.T;
+                board.squares[x + 1, y] = PieceType.T;
+                board.squares[x, y + 1] = PieceType.T;
+            }
+
+            if (state == PieceState.Left)
+            {
+                //  X
+                // XO
+                //  X
+                board.squares[x, y] = PieceType.T;
+                board.squares[x, y - 1] = PieceType.T;
+                board.squares[x - 1, y] = PieceType.T;
+                board.squares[x, y + 1] = PieceType.T;
+            }
+
+        }
+
+
+        public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Board board)
+        {
+            Color color = PieceColor.GetPieceColor(pieceType);
+            int x = board.x_piece;
+            int y = board.y_piece;
+            PieceState state = board.piece_state;
+
+            if (state == PieceState.Up)
+            {
+                //  X
+                // X0X
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y - 1, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x + 1, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x - 1, y, color);
             }
             else if (state == PieceState.Right)
             {
@@ -238,29 +247,29 @@ namespace Tetris
                 // 0X
                 // X
      
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y - 1, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y + 1, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x + 1, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y - 1, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y + 1, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x + 1, y, color);
             }
             else if (state == PieceState.Down)
             {
                 // X0X
                 //  X
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y + 1, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x + 1, y, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x - 1, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y + 1, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x + 1, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x - 1, y, color);
             }
             else if (state == PieceState.Left)
             {
                 //  X
                 // X0
                 //  X
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y - 1, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x, y + 1, color);
-                graph.DrawRect(graphicsDevice, spriteBatch, x - 1, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y - 1, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x, y + 1, color);
+                graph.DrawSquare(graphicsDevice, spriteBatch, x - 1, y, color);
             }
         }
     }

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris;
 
-public class Game1 : Game
+public class TetrisGame : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -15,6 +15,7 @@ public class Game1 : Game
     public const int SQUARE_BOARDER = SQUARE_SIDE / 10;
     public static Color BOARD_COLOR = Color.White;
     public Board board;
+    public Piece piece;
 
 
     KeyboardState currentKeyboardState;
@@ -22,9 +23,10 @@ public class Game1 : Game
     private double elapsed;
     private double delay;
 
-    public Game1()
+    public TetrisGame()
     {
         board = new Board();
+        piece = GenerateNextPiece();
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -67,7 +69,10 @@ public class Game1 : Game
             // Reset elapsed
             elapsed = 0;
 
-            board.DropOneDown();
+            if (board.DropOneDown(piece))
+            {
+                piece = GenerateNextPiece();
+            }
 
         }
 
@@ -78,28 +83,45 @@ public class Game1 : Game
 
         if (WasKeyPressed(Keys.Right))
         {
-            board.MoveRight();
+            board.MoveRight(piece);
 
         }
 
         if (WasKeyPressed(Keys.Left))
         {
-            board.MoveLeft();
+            board.MoveLeft(piece);
         }
 
         if (WasKeyPressed(Keys.Up))
         {
-            board.Rotate();
+            board.Rotate(piece);
         }
 
 
         if (WasKeyPressed(Keys.Down))
         {
-            board.DropAllTheWay();
+            board.DropAllTheWay(piece);
+            piece = GenerateNextPiece();
         }
 
         base.Update(gameTime);
 
+    }
+
+    protected Piece GenerateNextPiece()
+    {
+        Random random = new Random();
+
+        // Generate a random integer between 0 and 2
+        int randomNumber = random.Next(2);
+        if (randomNumber == 0) {
+            return new Piece_O();
+        } else if (randomNumber == 1)
+        {
+            return new Piece_T();
+        }
+        return null;
+;
     }
 
     protected override void Draw(GameTime gameTime)
@@ -109,8 +131,8 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
 
-        DrawBoard();
-        DrawPiece();
+        board.Draw(GraphicsDevice, _spriteBatch);
+        piece.Draw(GraphicsDevice, _spriteBatch, board);
 
         _spriteBatch.End();
 
@@ -118,30 +140,11 @@ public class Game1 : Game
     }
 
 
-    void DrawBoard()
-    {
-        for (int x = 0; x < BOARD_SIZE_WIDTH; x++)
-        {
-            for (int y = 0; y < BOARD_SIZE_HEIGHT; y++)
-            {
-                graph.DrawRect(GraphicsDevice, _spriteBatch, x, y, PieceColor.GetPieceColor(board.squares[x, y]));
-            }
-        }
-
-    }
-
-    void DrawPiece()
-    {
-        Piece_T.Draw(GraphicsDevice, _spriteBatch, board.piece_state, board.x_piece, board.y_piece);
-
-    }
-
-    
-
     // Method to check if a key was just pressed
     private bool WasKeyPressed(Keys key)
     {
         return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
     }
+
 }
 
