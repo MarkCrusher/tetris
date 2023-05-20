@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,8 +15,7 @@ public class TetrisGame : Game
     public const int SQUARE_BOARDER = SQUARE_SIDE / 10;
     public static Color BOARD_COLOR = Color.White;
     public Board board;
-    public Piece piece;
-
+   
 
     KeyboardState currentKeyboardState;
     KeyboardState previousKeyboardState;
@@ -26,7 +25,6 @@ public class TetrisGame : Game
     public TetrisGame()
     {
         board = new Board();
-        piece = GenerateNextPiece();
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -69,11 +67,7 @@ public class TetrisGame : Game
             // Reset elapsed
             elapsed = 0;
 
-            if (board.DropOneDown(piece))
-            {
-                piece = GenerateNextPiece();
-            }
-
+            board.DropOneDown();
         }
 
         // Save the previous state
@@ -83,46 +77,30 @@ public class TetrisGame : Game
 
         if (WasKeyPressed(Keys.Right))
         {
-            board.MoveRight(piece);
+            board.MoveRight();
 
         }
 
         if (WasKeyPressed(Keys.Left))
         {
-            board.MoveLeft(piece);
+            board.MoveLeft();
         }
 
         if (WasKeyPressed(Keys.Up))
         {
-            board.Rotate(piece);
+            board.Rotate();
         }
 
 
         if (WasKeyPressed(Keys.Down))
         {
-            board.DropAllTheWay(piece);
-            piece = GenerateNextPiece();
+            board.DropAllTheWay();
         }
 
         base.Update(gameTime);
 
     }
 
-    protected Piece GenerateNextPiece()
-    {
-        Random random = new Random();
-
-        // Generate a random integer between 0 and 2
-        int randomNumber = random.Next(2);
-        if (randomNumber == 0) {
-            return new Piece_O();
-        } else if (randomNumber == 1)
-        {
-            return new Piece_T();
-        }
-        return null;
-;
-    }
 
     protected override void Draw(GameTime gameTime)
     {
@@ -130,10 +108,8 @@ public class TetrisGame : Game
 
         _spriteBatch.Begin();
 
-
         board.Draw(GraphicsDevice, _spriteBatch);
-        piece.Draw(GraphicsDevice, _spriteBatch, board);
-
+        
         _spriteBatch.End();
 
         base.Draw(gameTime);
