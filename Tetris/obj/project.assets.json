@@ -107,11 +107,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danieleskenazi/Projects/Tetris/Tetris/Tetris.csproj",
+      "projectUniqueName": "/Users/danieleskenazi/Projects/tetris/Tetris/Tetris.csproj",
       "projectName": "Tetris",
-      "projectPath": "/Users/danieleskenazi/Projects/Tetris/Tetris/Tetris.csproj",
+      "projectPath": "/Users/danieleskenazi/Projects/tetris/Tetris/Tetris.csproj",
       "packagesPath": "/Users/danieleskenazi/.nuget/packages/",
-      "outputPath": "/Users/danieleskenazi/Projects/Tetris/Tetris/obj/",
+      "outputPath": "/Users/danieleskenazi/Projects/tetris/Tetris/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/danieleskenazi/.nuget/NuGet/NuGet.Config"
@@ -163,7 +163,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
       }
     }
   }
