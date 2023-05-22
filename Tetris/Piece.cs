@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace Tetris
 {
@@ -14,7 +13,7 @@ namespace Tetris
 
         public bool hasBottomed(PieceState state, int x, int y, Board board);
 
-        public void SetPieceOnBottom(PieceState state, int x, int y, Board board);
+        public void SetPieceOnBoard(PieceState state, int x, int y, Board board);
 
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Board board);
     }

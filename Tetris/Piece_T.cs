@@ -66,7 +66,7 @@ namespace Tetris
         {
             if (hasBottomed(state, x, y, board))
             {
-                SetPieceOnBottom(state, x, y, board);
+                SetPieceOnBoard(state, x, y, board);
                 
                 return true;
 
@@ -181,7 +181,7 @@ namespace Tetris
 
         }
 
-        public void SetPieceOnBottom(PieceState state, int x, int y, Board board)
+        public void SetPieceOnBoard(PieceState state, int x, int y, Board board)
         {
             if (state == PieceState.Up)
             {

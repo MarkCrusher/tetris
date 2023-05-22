@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Tetris;
-using System.Drawing;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace Tetris
 {
@@ -36,33 +32,33 @@ namespace Tetris
             int right_border = TetrisGame.BOARD_SIZE_WIDTH - 1;
 
 
-            int new_x = x + delta;
+            int newX = x + delta;
 
-            for (int i = 0; i < array2D.GetLength(0); i++) // Loop over rows
+            for (int row = 0; row < array2D.GetLength(0); row++) // Loop over rows
             {
-                for (int j = 0; j < array2D.GetLength(1); j++) // Loop over columns in a row
+                for (int col = 0; col < array2D.GetLength(1); col++) // Loop over columns in a row
                 {
-                    int element = array2D[i, j];
+                    int element = array2D[row, col];
                     if (element > 0)
                     {
-                        int x_effective = j + x - x_center_offset;
+                        int effectiveX = col + x - x_center_offset;
 
-                        int proposed_x = x_effective + delta;
+                        int proposedX = effectiveX + delta;
 
-                        if (proposed_x < x_min) {
-                            x = x_min + x_center_offset;
-                            return x;
+                        if (proposedX < x_min) {
+                            newX = x_min + x_center_offset;
+                            return newX;
                         }
-                        if (proposed_x > right_border)
+                        if (proposedX > right_border)
                         {
-                            x = right_border - x_center_offset;
-                            return x;
+                            newX = right_border - x_center_offset;
+                            return newX;
                         }
                     }
                 }
             }
 
-            return new_x;
+            return newX;
         }
 
 
@@ -70,10 +66,8 @@ namespace Tetris
         {
             if (hasBottomed(state, x, y, board))
             {
-                SetPieceOnBottom(state, x, y, board);
-
+                SetPieceOnBoard(state, x, y, board);
                 return true;
-
             }
 
             return false;
@@ -82,21 +76,26 @@ namespace Tetris
 
         public bool hasBottomed(PieceState state, int x, int y, Board board)
         {
-            for (int i = 0; i < array2D.GetLength(0); i++) // Loop over rows
+            const int y_max = TetrisGame.BOARD_SIZE_HEIGHT - 1;
+
+            for (int row = 0; row < array2D.GetLength(0); row++) // Loop over rows
             {
-                for (int j = 0; j < array2D.GetLength(1); j++) // Loop over columns in a row
+                for (int col = 0; col < array2D.GetLength(1); col++) // Loop over columns in a row
                 {
-                    int element = array2D[i, j];
+                    int element = array2D[row, col];
                     if (element > 0)
                     {
-                        int x_effective = j + x - x_center_offset;
-                        int y_effective = i + y - y_center_offset;
-                        if (y_effective >= TetrisGame.BOARD_SIZE_HEIGHT - 1)
+                        int effectiveX = col + x - x_center_offset;
+                        int effectiveY = row + y - y_center_offset;
+
+                        // Check if it hit the emtpy bottom
+                        if (effectiveY >= y_max)
                         {
                             return true;
                         }
 
-                        if (board.squares[x_effective, y_effective + 1] > 0)
+                        // Check if it hit existing blocks
+                        if (board.squares[effectiveX, effectiveY + 1] > 0)
                         {
                             return true;
                         }
@@ -106,22 +105,20 @@ namespace Tetris
             }
             
             return false;
-
         }
 
-        public void SetPieceOnBottom(PieceState state, int x, int y, Board board)
+        public void SetPieceOnBoard(PieceState state, int x, int y, Board board)
         {
-            for (int i = 0; i < array2D.GetLength(0); i++) // Loop over rows
+            for (int row = 0; row < array2D.GetLength(0); row++) // Loop over rows
             {
-                for (int j = 0; j < array2D.GetLength(1); j++) // Loop over columns in a row
+                for (int col = 0; col < array2D.GetLength(1); col++) // Loop over columns in a row
                 {
-                    int element = array2D[i, j];
+                    int element = array2D[row, col];
                     if (element > 0)
                     {
-                        int x_effective = j + x - x_center_offset;
-                        int y_effective = i + y - y_center_offset;
-                        board.squares[x_effective, y_effective] = PieceType.T;
-
+                        int effectiveX = col + x - x_center_offset;
+                        int effectiveY = row + y - y_center_offset;
+                        board.squares[effectiveX, effectiveY] = PieceType.T;
                     }
                 }
             }
@@ -134,19 +131,18 @@ namespace Tetris
             int x = board.x_piece;
             int y = board.y_piece;
 
-            for (int i = 0; i < array2D.GetLength(0); i++) // Loop over rows
+            for (int row = 0; row < array2D.GetLength(0); row++) // Loop over rows
             {
-                for (int j = 0; j < array2D.GetLength(1); j++) // Loop over columns in a row
+                for (int col = 0; col < array2D.GetLength(1); col++) // Loop over columns in a row
                 {
-                    int element = array2D[i, j];
-                    if (element>0)
-                    {
-                        graph.DrawSquare(graphicsDevice, spriteBatch, j + x - x_center_offset, i + y - y_center_offset, color);
-                    }
-                    else
-                    {
-                        graph.DrawSquare(graphicsDevice, spriteBatch, j + x - x_center_offset, i + y - y_center_offset, Microsoft.Xna.Framework.Color.Gray);
-                    }
+                    int element = array2D[row, col];
+                    int effectiveX = col + x - x_center_offset;
+                    int effectiveY = row + y - y_center_offset;
+
+                    Microsoft.Xna.Framework.Color colorToUse = element > 0 ? color : Microsoft.Xna.Framework.Color.Gray;
+
+                    graph.DrawSquare(graphicsDevice, spriteBatch, effectiveX, effectiveY, colorToUse);
+
                 }
             }
         }

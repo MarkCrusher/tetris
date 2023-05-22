@@ -1,5 +1,4 @@
-﻿using System;
-namespace Tetris
+﻿namespace Tetris
 {
 	public class Utils
 	{
