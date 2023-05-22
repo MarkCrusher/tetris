@@ -12,6 +12,9 @@ namespace Tetris
 		{
 		}
 
+        public void Rotate()
+        {
+        }
 
         public int GetNextX(PieceState state, int x, int delta)
         {

@@ -45,6 +45,8 @@ namespace Tetris
             {
                 piece = new Piece_T();
             }
+
+            piece = new Piece_Z();
         }
 
         public bool DropOneDown()
@@ -88,6 +90,7 @@ namespace Tetris
         public void Rotate()
         {
             piece_state = (PieceState)(((int)piece_state + 1) % 4);
+            piece.Rotate();
             x_piece = piece.GetNextX(piece_state, x_piece, 0);
         }
 

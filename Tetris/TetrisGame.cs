@@ -49,8 +49,6 @@ public class TetrisGame : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
@@ -75,30 +73,27 @@ public class TetrisGame : Game
         // Get the new state
         currentKeyboardState = Keyboard.GetState();
 
-        if (WasKeyPressed(Keys.Right))
+        if (WasKeyPressed(Keys.Right) | WasKeyPressed(Keys.D))
         {
             board.MoveRight();
-
         }
 
-        if (WasKeyPressed(Keys.Left))
+        if (WasKeyPressed(Keys.Left) | WasKeyPressed(Keys.A))
         {
             board.MoveLeft();
         }
 
-        if (WasKeyPressed(Keys.Up))
+        if (WasKeyPressed(Keys.Up) | WasKeyPressed(Keys.W))
         {
             board.Rotate();
         }
 
-
-        if (WasKeyPressed(Keys.Down))
+        if (WasKeyPressed(Keys.Down) | WasKeyPressed(Keys.S))
         {
             board.DropAllTheWay();
         }
 
         base.Update(gameTime);
-
     }
 
 

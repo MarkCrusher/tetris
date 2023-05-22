@@ -8,6 +8,8 @@ namespace Tetris
 
         public int GetNextX(PieceState state, int x, int delta);
 
+        public void Rotate();
+
         public bool CheckBottom(PieceState state, int x, int y, Board board);
 
         public bool hasBottomed(PieceState state, int x, int y, Board board);

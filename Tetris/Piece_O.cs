@@ -12,7 +12,11 @@ namespace Tetris
 		{
 		}
 
-        public int GetNextX(PieceState state, int x, int delta)
+        public void Rotate()
+        {
+        }
+
+            public int GetNextX(PieceState state, int x, int delta)
         {
             int x_min = 0, x_max = 0;
             int right_border = TetrisGame.BOARD_SIZE_WIDTH - 1;
