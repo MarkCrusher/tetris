@@ -34,7 +34,7 @@ namespace Tetris
             Random random = new Random();
 
             // Generate a random integer between 0 and 2
-            int randomNumber = random.Next(3);
+            int randomNumber = random.Next(5);
             if (randomNumber == 0)
             {
                 piece = new Piece_O();
@@ -47,6 +47,16 @@ namespace Tetris
             {
                 piece = new Piece_Z();
             }
+            else if (randomNumber == 3)
+            {
+                piece = new Piece_L();
+            }
+            else if (randomNumber == 4)
+            {
+                piece = new Piece_I();
+            }
+
+            piece = new Piece_I();
 
         }
 
@@ -129,11 +139,11 @@ namespace Tetris
 
         public void DrawBoard(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            for (int x = 0; x < TetrisGame.BOARD_SIZE_WIDTH; x++)
+            for (int row = 0; row < TetrisGame.BOARD_SIZE_WIDTH; row++)
             {
-                for (int y = 0; y < TetrisGame.BOARD_SIZE_HEIGHT; y++)
+                for (int col = 0; col < TetrisGame.BOARD_SIZE_HEIGHT; col++)
                 {
-                    graph.DrawSquare(graphicsDevice, spriteBatch, x, y, PieceColor.GetPieceColor(squares[x, y]));
+                    graph.DrawSquare(graphicsDevice, spriteBatch, row, col, PieceColor.GetPieceColor(squares[row, col]));
                 }
             }
         }

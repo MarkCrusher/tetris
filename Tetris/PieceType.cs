@@ -27,10 +27,10 @@ namespace Tetris
 				case PieceType.B: return Color.White;
                 case PieceType.T: return Color.Purple;
                 case PieceType.O: return Color.Orange;
-                case PieceType.L: return Color.LightBlue;
+                case PieceType.L: return Color.CornflowerBlue;
                 case PieceType.S: return Color.Green;
                 case PieceType.Z: return Color.Red;
-                case PieceType.J: return Color.Blue;
+                case PieceType.J: return Color.MediumBlue;
                 case PieceType.I: return Color.Orange;
                 default: return Color.White;
 			}
