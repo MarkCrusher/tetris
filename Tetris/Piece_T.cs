@@ -61,23 +61,7 @@ namespace Tetris
 
         }
 
-
-        public bool CheckBottom(PieceState state, int x, int y, Board board)
-        {
-            if (hasBottomed(state, x, y, board))
-            {
-                SetPieceOnBoard(state, x, y, board);
-                
-                return true;
-
-            }
-
-            return false;
-      
-        }
-
-
-        public bool hasBottomed(PieceState state, int x, int y, Board board)
+        public bool HasBottomed(PieceState state, int x, int y, Board board)
         {
             if (state == PieceState.Up)
             {

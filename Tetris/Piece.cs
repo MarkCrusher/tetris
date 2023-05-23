@@ -9,9 +9,7 @@ namespace Tetris
 
         public void Rotate();
 
-        public bool CheckBottom(PieceState state, int x, int y, Board board);
-
-        public bool hasBottomed(PieceState state, int x, int y, Board board);
+        public bool HasBottomed(PieceState state, int x, int y, Board board);
 
         public void SetPieceOnBoard(PieceState state, int x, int y, Board board);
 

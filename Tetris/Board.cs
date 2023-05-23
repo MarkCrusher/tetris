@@ -20,11 +20,11 @@ namespace Tetris
 
         private void InitBoard()
         {
-            for (int x = 0; x < TetrisGame.BOARD_SIZE_WIDTH; x++)
+            for (int row = 0; row < squares.GetLength(0); row++)
             {
-                for (int y = 0; y < TetrisGame.BOARD_SIZE_HEIGHT; y++)
+                for (int col = 0; col < squares.GetLength(1); col++)
                 {
-                    squares[x, y] = 0;
+                    squares[row, col] = 0;
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace Tetris
             Random random = new Random();
 
             // Generate a random integer between 0 and 2
-            int randomNumber = random.Next(2);
+            int randomNumber = random.Next(3);
             if (randomNumber == 0)
             {
                 piece = new Piece_O();
@@ -43,23 +43,21 @@ namespace Tetris
             {
                 piece = new Piece_T();
             }
+            else if (randomNumber == 2)
+            {
+                piece = new Piece_Z();
+            }
 
-            piece = new Piece_Z();
         }
 
         public bool DropOneDown()
         {
-            y_piece++;
+            AdvancePieceOneDown();
 
-            if (piece.CheckBottom(piece_state, x_piece, y_piece, this))
+            if (CheckBottom())
             {
-                ResetPiecePosition();
-                GenerateNextPiece();
-                return true;
-            }
-
-            if (y_piece > TetrisGame.BOARD_SIZE_HEIGHT - 1)
-            {
+                SetPieceOnBoard();
+                RemoveFullRows();
                 ResetPiecePosition();
                 GenerateNextPiece();
                 return true;
@@ -71,8 +69,12 @@ namespace Tetris
         public void DropAllTheWay()
         {
             while (!DropOneDown());
-           GenerateNextPiece();
+        }
 
+
+        public void AdvancePieceOneDown()
+        {
+            y_piece++;
         }
 
         public void MoveRight()
@@ -89,18 +91,34 @@ namespace Tetris
         {
             piece_state = (PieceState)(((int)piece_state + 1) % 4);
             piece.Rotate();
+            CheckPieceIsWithinBorders();
+        }
+
+        private void CheckPieceIsWithinBorders()
+        {
             x_piece = piece.GetNextX(piece_state, x_piece, 0);
         }
 
         public bool CheckBottom()
         {
-            return piece.CheckBottom(piece_state, x_piece, y_piece, this);
+            return piece.HasBottomed(piece_state, x_piece, y_piece, this);
+        }
+
+
+        public void RemoveFullRows()
+        {
+
         }
 
         public void ResetPiecePosition()
         {
             x_piece = TetrisGame.BOARD_SIZE_WIDTH / 2;
             y_piece = 0;
+        }
+
+        public void SetPieceOnBoard()
+        {
+           piece.SetPieceOnBoard(piece_state, x_piece, y_piece, this);
         }
 
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
