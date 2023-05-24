@@ -14,16 +14,22 @@
             // Create new array of MxN
             int[,] result = new int[M, N];
 
-            for (int i = 0; i < N; i++)
+            for (int row = 0; row < N; row++)
             {
-                for (int j = 0; j < M; j++)
+                for (int col = 0; col < M; col++)
                 {
                     // Place the elements in the new array rotated 90 degrees to the right
-                    result[j, N - i - 1] = matrix[i, j];
+                    result[col, N - row - 1] = matrix[row, col];
                 }
             }
 
             return result;
+        }
+
+        public static (int, int) GetRotatedCoordsOfItemInMatrix(int row, int col, int rowCount)
+        {
+            // Place the elements in the new array rotated 90 degrees to the right
+            return (col, rowCount - row - 1);
         }
     }
 }

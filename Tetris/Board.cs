@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Tetris
@@ -20,11 +21,11 @@ namespace Tetris
 
         private void InitBoard()
         {
-            for (int row = 0; row < squares.GetLength(0); row++)
+            for (int column = 0; column < squares.GetLength(0); column++)
             {
-                for (int col = 0; col < squares.GetLength(1); col++)
+                for (int row = 0; row < squares.GetLength(1); row++)
                 {
-                    squares[row, col] = 0;
+                    squares[column, row] = 0;
                 }
             }
         }
@@ -56,7 +57,7 @@ namespace Tetris
                 piece = new Piece_I();
             }
 
-            piece = new Piece_I();
+            // piece = new Piece_I();
 
         }
 
@@ -64,12 +65,12 @@ namespace Tetris
         {
             AdvancePieceOneDown();
 
-            if (CheckBottom())
+            if (BottomWasHit())
             {
                 SetPieceOnBoard();
                 RemoveFullRows();
-                ResetPiecePosition();
                 GenerateNextPiece();
+                ResetPiecePosition();
                 return true;
             }
 
@@ -109,7 +110,7 @@ namespace Tetris
             x_piece = piece.GetNextX(piece_state, x_piece, 0);
         }
 
-        public bool CheckBottom()
+        public bool BottomWasHit()
         {
             return piece.HasBottomed(piece_state, x_piece, y_piece, this);
         }
@@ -117,7 +118,35 @@ namespace Tetris
 
         public void RemoveFullRows()
         {
+            int rowCount = squares.GetLength(1);
+            for (int row = 0; row < rowCount; row++)
+            {
+                bool isRowFull = true;
+                for (int col = 0; col < squares.GetLength(0); col++)
+                {
+                    isRowFull = isRowFull && squares[col, row] > 0;
+                }
+                if (isRowFull)
+                {
+                    RemoveRow(row);
+                }
+            }
 
+        }
+
+        public void RemoveRow(int rowToDelete)
+        {
+            int rowCount = squares.GetLength(1);
+            for (int row = rowCount; row > 0; row--)
+            {
+                for (int col = 0; col < squares.GetLength(0); col++)
+                {
+                    if (row <= rowToDelete)
+                    {
+                        squares[col, row] = squares[col, row-1];
+                    }
+                }
+            }
         }
 
         public void ResetPiecePosition()
@@ -139,11 +168,11 @@ namespace Tetris
 
         public void DrawBoard(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            for (int row = 0; row < TetrisGame.BOARD_SIZE_WIDTH; row++)
+            for (int column = 0; column < TetrisGame.BOARD_SIZE_WIDTH; column++)
             {
-                for (int col = 0; col < TetrisGame.BOARD_SIZE_HEIGHT; col++)
+                for (int row = 0; row < TetrisGame.BOARD_SIZE_HEIGHT; row++)
                 {
-                    graph.DrawSquare(graphicsDevice, spriteBatch, row, col, PieceColor.GetPieceColor(squares[row, col]));
+                    graph.DrawSquare(graphicsDevice, spriteBatch, column, row, PieceColor.GetPieceColor(squares[column, row]));
                 }
             }
         }
