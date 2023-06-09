@@ -25,12 +25,6 @@
 
             return result;
         }
-
-        public static (int, int) GetRotatedCoordsOfItemInMatrix(int row, int col, int rowCount)
-        {
-            // Place the elements in the new array rotated 90 degrees to the right
-            return (col, rowCount - row - 1);
-        }
     }
 }
 
