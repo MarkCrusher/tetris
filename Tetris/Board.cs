@@ -215,8 +215,7 @@ namespace Tetris
 
         public void DrawScore(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            // TODO: Print the score in the screen.
-
+            // To do: display the score in the game instead of the title.
         }
 
 

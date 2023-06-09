@@ -40,6 +40,7 @@ public class TetrisGame : Game
 
     protected override void Initialize()
     {
+        Window.Title = "Tetris by Mark Eskenazi";
         currentKeyboardState = Keyboard.GetState();
         previousKeyboardState = currentKeyboardState;
 
@@ -118,6 +119,8 @@ public class TetrisGame : Game
         board.Draw( GraphicsDevice, _spriteBatch);
         
         _spriteBatch.End();
+
+        Window.Title = "Tetris by Mark Eskenazi - Score: " + board.GetScore().ToString();
 
         base.Draw(gameTime);
     }
