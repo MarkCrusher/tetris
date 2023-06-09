@@ -27,7 +27,7 @@ namespace Tetris
         }
 
 
-        public int GetNextX(PieceState state, int x, int delta)
+        public int GetNextX(int x, int delta)
         {
             int newX = x + delta;
 
@@ -74,7 +74,7 @@ namespace Tetris
         }
 
 
-        public bool HasBottomed(PieceState state, int x, int y, Board board)
+        public bool HasBottomed(int x, int y, Board board)
         {
             const int y_max = TetrisGame.BOARD_SIZE_HEIGHT - 1;
 
@@ -107,7 +107,7 @@ namespace Tetris
             return false;
         }
 
-        public void SetPieceOnBoard(PieceState state, int x, int y, Board board)
+        public void SetPieceOnBoard(int x, int y, Board board)
         {
             for (int i = 0; i < array2D.GetLength(0); i++) // Loop over columns
             {
