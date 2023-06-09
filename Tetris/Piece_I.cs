@@ -5,7 +5,7 @@ namespace Tetris
 	{
 		public Piece_I()
 		{
-            pieceType = PieceType.L;
+            pieceType = PieceType.I;
             array2D = new int[,]
             {
                 { 0, 0, 0, 0 },
