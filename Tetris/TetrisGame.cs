@@ -12,7 +12,12 @@ public class TetrisGame : Game
     public const int BOARD_SIZE_WIDTH = 10;
     public const int BOARD_SIZE_HEIGHT = 20;
     public const int SQUARE_SIDE = 20;
-    public const int SQUARE_BOARDER = SQUARE_SIDE / 10;
+    public const int SQUARE_BORDER = SQUARE_SIDE / 10;
+    public const int GAME_WIDTH = SQUARE_SIDE * BOARD_SIZE_WIDTH + 200;
+    public const int GAME_HEIGHT = SQUARE_SIDE * BOARD_SIZE_HEIGHT + 100;
+    public const int BOARD_X = (GAME_WIDTH - (SQUARE_SIDE * BOARD_SIZE_WIDTH)) / 2;
+    public const int BOARD_Y = (GAME_HEIGHT - (SQUARE_SIDE * BOARD_SIZE_HEIGHT)) / 2;
+
     public static Color BOARD_COLOR = Color.White;
     public Board board;
    
@@ -20,7 +25,6 @@ public class TetrisGame : Game
     KeyboardState currentKeyboardState;
     KeyboardState previousKeyboardState;
     private double elapsed;
-    private double delay;
 
     public TetrisGame()
     {
@@ -29,8 +33,8 @@ public class TetrisGame : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         // Set the preferred window size
-        _graphics.PreferredBackBufferWidth = SQUARE_SIDE* BOARD_SIZE_WIDTH;
-        _graphics.PreferredBackBufferHeight = SQUARE_SIDE*BOARD_SIZE_HEIGHT; 
+        _graphics.PreferredBackBufferWidth = GAME_WIDTH;
+        _graphics.PreferredBackBufferHeight = GAME_HEIGHT; 
 
     }
 
@@ -38,8 +42,6 @@ public class TetrisGame : Game
     {
         currentKeyboardState = Keyboard.GetState();
         previousKeyboardState = currentKeyboardState;
-
-        delay = 500;
 
         this.TargetElapsedTime = TimeSpan.FromSeconds(1f / 20);
 
@@ -59,38 +61,48 @@ public class TetrisGame : Game
         // Add elapsed game time since last frame to elapsed
         elapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
 
-        // Check if elapsed is larger than delay
-        if (elapsed >= delay)
-        {
-            // Reset elapsed
-            elapsed = 0;
-
-            board.DropOneDown();
-        }
 
         // Save the previous state
         previousKeyboardState = currentKeyboardState;
         // Get the new state
         currentKeyboardState = Keyboard.GetState();
 
-        if (WasKeyPressed(Keys.Right) | WasKeyPressed(Keys.D))
+        if(WasKeyPressed(Keys.Space))
         {
-            board.MoveRight();
+             board.ResetGame();
         }
 
-        if (WasKeyPressed(Keys.Left) | WasKeyPressed(Keys.A))
+        if (!board.IsGameOver())
         {
-            board.MoveLeft();
-        }
+            // Check if elapsed is larger than delay
+            if (elapsed >= board.GetDropDelay())
+            {
+                // Reset elapsed
+                elapsed = 0;
 
-        if (WasKeyPressed(Keys.Up) | WasKeyPressed(Keys.W))
-        {
-            board.Rotate();
-        }
+                board.DropOneDown();
+            }
 
-        if (WasKeyPressed(Keys.Down) | WasKeyPressed(Keys.S))
-        {
-            board.DropAllTheWay();
+            if (WasKeyPressed(Keys.Right) | WasKeyPressed(Keys.D))
+            {
+                board.MoveRight();
+                // Console.WriteLine("Keys.Right");
+            }
+            else if (WasKeyPressed(Keys.Left) | WasKeyPressed(Keys.A))
+            {
+                board.MoveLeft();
+               // Console.WriteLine("Keys.Left");
+            }
+            else if (WasKeyPressed(Keys.Up) | WasKeyPressed(Keys.W))
+            {
+                board.Rotate();
+                // Console.WriteLine("Keys.Up");
+            }
+            else if (WasKeyPressed(Keys.Down) | WasKeyPressed(Keys.S))
+            {
+                board.DropAllTheWay();
+                // Console.WriteLine("Keys.Down");
+            }
         }
 
         base.Update(gameTime);
@@ -103,7 +115,7 @@ public class TetrisGame : Game
 
         _spriteBatch.Begin();
 
-        board.Draw(GraphicsDevice, _spriteBatch);
+        board.Draw( GraphicsDevice, _spriteBatch);
         
         _spriteBatch.End();
 

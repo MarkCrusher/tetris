@@ -11,12 +11,13 @@ namespace Tetris
         public int y_piece;
         public PieceState piece_state = PieceState.Up;
         public PieceType[,] squares = new PieceType[TetrisGame.BOARD_SIZE_WIDTH, TetrisGame.BOARD_SIZE_HEIGHT];
+        public int fullRowCount = 0;
+        public double initial_delay = 500;
+        public int max_levels = 10;
 
         public Board()
         {
-            GenerateNextPiece();
-            InitBoard();
-            ResetPiecePosition();
+            ResetGame();
         }
 
         private void InitBoard()
@@ -28,6 +29,31 @@ namespace Tetris
                     squares[column, row] = 0;
                 }
             }
+            fullRowCount = 0;
+            y_piece = 0;
+            
+        }
+
+        public void ResetGame()
+        {
+            GenerateNextPiece();
+            InitBoard();
+            ResetPiecePosition();
+        }
+
+        public int GetScore()
+        {
+            int score = fullRowCount * 100;
+            return score;
+        }
+
+        public double GetDropDelay()
+        {
+            int rows_per_level = 1;
+            int level = (fullRowCount / rows_per_level) + 1;
+            double delay = initial_delay - initial_delay * level / (max_levels);
+            return delay;
+
         }
 
         private void GenerateNextPiece()
@@ -35,30 +61,18 @@ namespace Tetris
             Random random = new Random();
 
             // Generate a random integer between 0 and 2
-            int randomNumber = random.Next(5);
-            if (randomNumber == 0)
+            PieceType randomNumber = (PieceType)(random.Next(7) + 1);
+            switch (randomNumber)
             {
-                piece = new Piece_O();
-            }
-            else if (randomNumber == 1)
-            {
-                piece = new Piece_T();
-            }
-            else if (randomNumber == 2)
-            {
-                piece = new Piece_Z();
-            }
-            else if (randomNumber == 3)
-            {
-                piece = new Piece_L();
-            }
-            else if (randomNumber == 4)
-            {
-                piece = new Piece_I();
-            }
+                case PieceType.T: piece = new Piece_T(); break;
+                case PieceType.O: piece = new Piece_O(); break;
+                case PieceType.L: piece = new Piece_L(); break;
+                case PieceType.S: piece = new Piece_S(); break;
+                case PieceType.Z: piece = new Piece_Z(); break;
+                case PieceType.J: piece = new Piece_J(); break;
+                case PieceType.I: piece = new Piece_I(); break;
 
-            // piece = new Piece_I();
-
+            }
         }
 
         public bool DropOneDown()
@@ -72,6 +86,7 @@ namespace Tetris
                 GenerateNextPiece();
                 ResetPiecePosition();
                 return true;
+                
             }
 
             return false;
@@ -100,7 +115,6 @@ namespace Tetris
 
         public void Rotate()
         {
-            piece_state = (PieceState)(((int)piece_state + 1) % 4);
             piece.Rotate();
             CheckPieceIsWithinBorders();
         }
@@ -121,17 +135,31 @@ namespace Tetris
             int rowCount = squares.GetLength(1);
             for (int row = 0; row < rowCount; row++)
             {
-                bool isRowFull = true;
-                for (int col = 0; col < squares.GetLength(0); col++)
-                {
-                    isRowFull = isRowFull && squares[col, row] > 0;
-                }
-                if (isRowFull)
+                if (IsRowFull(row))
                 {
                     RemoveRow(row);
                 }
             }
+        }
 
+        public bool IsGameOver()
+        {
+            for (int col = 0; col < squares.GetLength(0); col++)
+            {
+                if (squares[col, 0] > 0)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsRowFull(int row)
+        {
+            bool isRowFull = true;
+            for (int col = 0; col < squares.GetLength(0); col++)
+            {
+                isRowFull = isRowFull && squares[col, row] > 0;
+            }
+            return isRowFull;
         }
 
         public void RemoveRow(int rowToDelete)
@@ -147,6 +175,8 @@ namespace Tetris
                     }
                 }
             }
+
+            fullRowCount++;
         }
 
         public void ResetPiecePosition()
@@ -164,6 +194,7 @@ namespace Tetris
         {
             DrawBoard(graphicsDevice, spriteBatch);
             DrawPiece(graphicsDevice, spriteBatch);
+            DrawScore(graphicsDevice, spriteBatch);
         }
 
         public void DrawBoard(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
@@ -180,6 +211,12 @@ namespace Tetris
         public void DrawPiece(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
             piece.Draw(graphicsDevice, spriteBatch, this);
+        }
+
+        public void DrawScore(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            // TODO: Print the score in the screen.
+
         }
 
 

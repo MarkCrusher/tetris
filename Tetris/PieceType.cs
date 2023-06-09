@@ -13,8 +13,8 @@ namespace Tetris
 		L = 3,
 		S = 4,
 		Z = 5,
-		J = 7,
-		I = 8
+		J = 6,
+		I = 7
 	}
 
 
@@ -31,7 +31,7 @@ namespace Tetris
                 case PieceType.S: return Color.Green;
                 case PieceType.Z: return Color.Red;
                 case PieceType.J: return Color.MediumBlue;
-                case PieceType.I: return Color.Orange;
+                case PieceType.I: return Color.LightSkyBlue;
                 default: return Color.White;
 			}
 		}

@@ -21,7 +21,7 @@ namespace Tetris
         }
 
 
-        public void Rotate()
+        public virtual void Rotate()
         {
             array2D = Utils.RotateMatrix90DegreesClockwise(array2D); ;
         }
@@ -69,7 +69,7 @@ namespace Tetris
                 diff = effectiveX - x_max;
             }
 
-            Console.WriteLine("diff: " + diff);
+           // Console.WriteLine("diff: " + diff);
             return diff;
         }
 
