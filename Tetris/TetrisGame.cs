@@ -13,7 +13,7 @@ public class TetrisGame : Game
     public const int BOARD_SIZE_HEIGHT = 20;
     public const int SQUARE_SIDE = 20;
     public const int SQUARE_BORDER = SQUARE_SIDE / 10;
-    public const int GAME_WIDTH = SQUARE_SIDE * BOARD_SIZE_WIDTH + 200;
+    public const int GAME_WIDTH = SQUARE_SIDE * BOARD_SIZE_WIDTH + 260;
     public const int GAME_HEIGHT = SQUARE_SIDE * BOARD_SIZE_HEIGHT + 100;
     public const int BOARD_X = (GAME_WIDTH - (SQUARE_SIDE * BOARD_SIZE_WIDTH)) / 2;
     public const int BOARD_Y = (GAME_HEIGHT - (SQUARE_SIDE * BOARD_SIZE_HEIGHT)) / 2;
@@ -120,7 +120,15 @@ public class TetrisGame : Game
         
         _spriteBatch.End();
 
-        Window.Title = "Tetris by Mark Eskenazi - Score: " + board.GetScore().ToString();
+        int score = board.GetScore();
+        if (score > 0)
+        {
+            Window.Title = "Tetris by Mark Eskenazi - Score: " + score.ToString() + " - Level: " + board.GetLevel().ToString();
+        }
+        else
+        {
+            Window.Title = "Tetris by Mark Eskenazi - Arrows to play, Space to restart";
+        }
 
         base.Draw(gameTime);
     }
