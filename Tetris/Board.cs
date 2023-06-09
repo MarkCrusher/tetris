@@ -9,11 +9,11 @@ namespace Tetris
         public Piece piece;
         public int x_piece;
         public int y_piece;
-        public PieceState piece_state = PieceState.Up;
         public PieceType[,] squares = new PieceType[TetrisGame.BOARD_SIZE_WIDTH, TetrisGame.BOARD_SIZE_HEIGHT];
         public int fullRowCount = 0;
         public double initial_delay = 500;
         public int max_levels = 10;
+        public int rows_per_level = 3;
 
         public Board()
         {
@@ -47,10 +47,15 @@ namespace Tetris
             return score;
         }
 
+        public int GetLevel()
+        {
+            int level = (fullRowCount / rows_per_level) + 1;
+            return level;
+        }
+
         public double GetDropDelay()
         {
-            int rows_per_level = 1;
-            int level = (fullRowCount / rows_per_level) + 1;
+            int level = GetLevel();
             double delay = initial_delay - initial_delay * level / (max_levels);
             return delay;
 
@@ -105,12 +110,12 @@ namespace Tetris
 
         public void MoveRight()
         {
-            x_piece = piece.GetNextX(piece_state, x_piece, 1);
+            x_piece = piece.GetNextX(x_piece, 1);
         }
 
         public void MoveLeft()
         {
-            x_piece = piece.GetNextX(piece_state, x_piece, -1);
+            x_piece = piece.GetNextX(x_piece, -1);
         }
 
         public void Rotate()
@@ -121,12 +126,12 @@ namespace Tetris
 
         private void CheckPieceIsWithinBorders()
         {
-            x_piece = piece.GetNextX(piece_state, x_piece, 0);
+            x_piece = piece.GetNextX(x_piece, 0);
         }
 
         public bool BottomWasHit()
         {
-            return piece.HasBottomed(piece_state, x_piece, y_piece, this);
+            return piece.HasBottomed(x_piece, y_piece, this);
         }
 
 
@@ -187,7 +192,7 @@ namespace Tetris
 
         public void SetPieceOnBoard()
         {
-           piece.SetPieceOnBoard(piece_state, x_piece, y_piece, this);
+           piece.SetPieceOnBoard(x_piece, y_piece, this);
         }
 
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
